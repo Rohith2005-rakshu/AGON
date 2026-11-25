@@ -225,7 +225,7 @@ def analyze_video_metadata(raw_bytes: bytes, filename: str = "") -> dict[str, An
 
     # Extract readable encoder / creation strings (e.g., Lavf, HandBrake, Apple, Android)
     encoder_matches = re.findall(
-        r"(?:Lavf[\d\.]+|HandBrake[\s\d\.]+|Apple[\s\w]{0,20}|Google[\s\w]{0,20}|Samsung[\s\w]{0,20}|DJI[\s\w]{0,20}|GoPro[\s\w]{0,20}|FFmpeg[\s\w\.]*)",
+        r"(?:\bLavf[\d\.]+|\bHandBrake[\s\d\.]+|\bFFmpeg[\s\w\.]*|\b(?:Apple|Google|Samsung|DJI|GoPro|Sony|Canon|Nikon)\s+[A-Za-z0-9][A-Za-z0-9\s\-_]{1,20})",
         ascii_blob,
     )
     encoders = list(dict.fromkeys(_safe_str(e, 60) for e in encoder_matches if len(e.strip()) > 3))[:8]
