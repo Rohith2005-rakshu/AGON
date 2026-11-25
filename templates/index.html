@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AGON — Detect &bull; Verify &bull; Stay Informed | AI Generated or Not?</title>
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/agon-mark.png') }}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-glow bg-glow-1" aria-hidden="true"></div>
+  <div class="bg-glow bg-glow-2" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <div class="brand">
+        <div class="brand-logo-wrap">
+          <img src="{{ url_for('static', filename='images/agon-mark.png') }}" alt="AGON logo" class="brand-logo-mark" />
+        </div>
+        <div>
+          <span class="brand-name">AG<span class="accent">O</span>N</span>
+          <span class="brand-sub">Detect &bull; Verify &bull; Stay Informed</span>
+        </div>
+      </div>
+
+      <div class="topbar-actions">
+        <span class="status-pill" id="engineStatusPill">
+          <span class="dot"></span> Local Forensic Engine Ready
+        </span>
+        <button type="button" class="btn btn-ghost btn-sm" id="toggleSettingsBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+          AI Model Boost
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container main-content">
+    <!-- Hero & Upload Panel -->
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="hero-logo-banner">
+          <img src="{{ url_for('static', filename='images/agon-logo-dark.jpg') }}" alt="AGON — Detect • Verify • Stay Informed — AI Generated or Not?" class="hero-logo-img" />
+        </div>
+        <span class="eyebrow">2D FFT Spectrum &bull; Noise Residuals &bull; ELA &bull; Video Temporal Analysis &bull; EXIF/C2PA</span>
+        <h1>Detect whether an <span class="gradient-text">image or video</span> is AI-generated</h1>
+        <p class="hero-desc">
+          Upload any photo or video to inspect frequency-domain artifacts, sensor noise floors, compression residuals, inter-frame shimmer, and hidden generator metadata.
+        </p>
+      </div>
+
+      <!-- Optional ML Settings Drawer -->
+      <div class="settings-drawer hidden" id="settingsDrawer">
+        <div class="settings-header">
+          <div>
+            <h3>Optional Cloud Neural Detector (Hugging Face)</h3>
+            <p>Combine local forensic signal processing with a deep-learning classifier. Tokens stay in your browser session only.</p>
+          </div>
+          <button type="button" class="btn-close" id="closeSettingsBtn" aria-label="Close settings">&times;</button>
+        </div>
+        <div class="settings-grid">
+          <label class="field">
+            <span>Hugging Face API Token (Optional)</span>
+            <input type="password" id="hfTokenInput" placeholder="hf_..." autocomplete="off" />
+          </label>
+          <label class="field">
+            <span>Model ID</span>
+            <input type="text" id="hfModelInput" value="umm-maybe/AI-image-detector" />
+          </label>
+        </div>
+      </div>
+
+      <!-- Dropzone -->
+      <div class="upload-card" id="dropzone" tabindex="0" role="button" aria-label="Upload image or video">
+        <input type="file" id="fileInput" accept="image/*,video/*,.mkv,.avi,.mov,.webm,.mp4,.webp,.tiff" hidden />
+        <div class="upload-inner">
+          <div class="upload-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="17 8 12 3 7 8" />
+              <line x1="12" y1="3" x2="12" y2="15" />
+            </svg>
+          </div>
+          <div class="upload-text">
+            <strong>Drag &amp; drop an image or video here</strong>
+            <span>or <span class="link-like">browse your device</span> &mdash; PNG, JPG, WEBP, MP4, MOV, WEBM (max 80 MB)</span>
+          </div>
+        </div>
+        <div class="demo-bar" onclick="event.stopPropagation()">
+          <span class="demo-label">Try built-in samples:</span>
+          <button type="button" class="btn btn-chip" data-demo="ai_image">AI Diffusion Sample (PNG)</button>
+          <button type="button" class="btn btn-chip" data-demo="camera_image">Camera Photo Sample (JPG)</button>
+          <button type="button" class="btn btn-chip" data-demo="ai_video">AI Video Sample (MP4)</button>
+        </div>
+      </div>
+
+      <!-- Error Banner -->
+      <div class="alert alert-error hidden" id="errorBanner" role="alert"></div>
+
+      <!-- Loading State -->
+      <div class="loading-panel hidden" id="loadingPanel">
+        <div class="scanner-line"></div>
+        <div class="loading-spinner"></div>
+        <div>
+          <strong id="loadingTitle">Running forensic analysis...</strong>
+          <p id="loadingSubtitle">Computing 2D FFT power spectrum, noise residuals, ELA, and metadata signatures.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results Workspace -->
+    <section class="results-section hidden" id="resultsSection">
+      <!-- Top Summary Row -->
+      <div class="results-top-bar">
+        <div class="file-meta-strip">
+          <span class="media-badge" id="mediaTypeBadge">IMAGE</span>
+          <span class="file-name" id="resultFilename">sample.png</span>
+          <span class="file-stats" id="resultStats">512 &times; 512 &bull; 240 KB &bull; 110 ms</span>
+        </div>
+        <div class="results-actions">
+          <button type="button" class="btn btn-ghost btn-sm" id="exportJsonBtn">Export JSON Report</button>
+          <button type="button" class="btn btn-primary btn-sm" id="scanAnotherBtn">Analyze Another File</button>
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+        <!-- Left Column: Verdict + Signal Breakdown -->
+        <div class="col-left">
+          <div class="card verdict-card" id="verdictCard">
+            <div class="verdict-gauge-wrap">
+              <svg class="gauge-svg" viewBox="0 0 140 140">
+                <circle class="gauge-bg" cx="70" cy="70" r="58" />
+                <circle class="gauge-progress" id="gaugeProgress" cx="70" cy="70" r="58" />
+              </svg>
+              <div class="gauge-center">
+                <span class="gauge-percent" id="gaugePercent">0%</span>
+                <span class="gauge-sub">AI Likelihood</span>
+              </div>
+            </div>
+
+            <div class="verdict-details">
+              <span class="verdict-pill" id="verdictBadge">Analyzing</span>
+              <h2 id="verdictTitle">Awaiting Media</h2>
+              <p id="verdictDesc"></p>
+              <div class="ml-badge-row" id="mlBadgeRow"></div>
+            </div>
+          </div>
+
+          <!-- Signal Breakdown -->
+          <div class="card">
+            <div class="card-header">
+              <h3>Forensic Signal Breakdown</h3>
+              <span class="card-hint">0% = Natural &bull; 100% = Synthetic</span>
+            </div>
+            <div class="signals-list" id="signalsList"></div>
+          </div>
+
+          <!-- Metadata & Provenance -->
+          <div class="card">
+            <div class="card-header">
+              <h3>Metadata &amp; Provenance (EXIF / C2PA)</h3>
+              <span class="tag-chip" id="c2paChip">No C2PA</span>
+            </div>
+            <p class="meta-summary" id="metaSummary"></p>
+            <div class="signature-tags" id="signatureTags"></div>
+            <details class="raw-meta-details" id="rawMetaDetails">
+              <summary>Inspect Extracted Metadata Fields</summary>
+              <div class="meta-table-wrap" id="metaTableWrap"></div>
+            </details>
+          </div>
+        </div>
+
+        <!-- Right Column: Visual Forensic Maps + Video Timeline -->
+        <div class="col-right">
+          <div class="card visual-lab-card">
+            <div class="card-header visual-header">
+              <div>
+                <h3>Visual Forensic Lab</h3>
+                <span class="card-hint" id="visualSubtitle">Inspect pixel-level anomalies across frequency, compression, and noise domains</span>
+              </div>
+              <div class="view-mode-tabs" id="visualTabs">
+                <button type="button" class="tab-btn active" data-view="grid">2&times;2 Grid</button>
+                <button type="button" class="tab-btn" data-view="original">Original</button>
+                <button type="button" class="tab-btn" data-view="fft">2D FFT</button>
+                <button type="button" class="tab-btn" data-view="ela">ELA</button>
+                <button type="button" class="tab-btn" data-view="noise">Noise</button>
+              </div>
+            </div>
+
+            <!-- Video Player (shown for videos) -->
+            <div class="video-stage hidden" id="videoStage">
+              <video id="videoPreview" controls playsinline></video>
+              <div class="video-info-pills" id="videoInfoPills"></div>
+            </div>
+
+            <!-- Forensic 2x2 Grid / Single View -->
+            <div class="forensic-grid" id="forensicGrid">
+              <figure class="forensic-tile" data-panel="original">
+                <div class="tile-label">Original Media / Peak Frame</div>
+                <img id="imgOriginal" alt="Original media preview" />
+              </figure>
+              <figure class="forensic-tile" data-panel="fft">
+                <div class="tile-label">2D FFT Power Spectrum <span class="tile-tip">Bright off-center dots = periodic grid</span></div>
+                <img id="imgFft" alt="2D FFT spectrum heatmap" />
+              </figure>
+              <figure class="forensic-tile" data-panel="ela">
+                <div class="tile-label">Error Level Analysis (ELA) <span class="tile-tip">JPEG Q90 quantization residual</span></div>
+                <img id="imgEla" alt="Error Level Analysis heatmap" />
+              </figure>
+              <figure class="forensic-tile" data-panel="noise">
+                <div class="tile-label">High-Pass Noise Residual <span class="tile-tip">Dark uniform regions = over-smoothed</span></div>
+                <img id="imgNoise" alt="Noise residual map" />
+              </figure>
+            </div>
+          </div>
+
+          <!-- Video Frame Timeline (shown for videos) -->
+          <div class="card hidden" id="videoTimelineCard">
+            <div class="card-header">
+              <h3>Temporal Frame-by-Frame AI Timeline</h3>
+              <span class="card-hint" id="timelineHint">Sampled frames &amp; inter-frame shimmer</span>
+            </div>
+            <div class="timeline-chart-wrap">
+              <canvas id="timelineCanvas" height="170"></canvas>
+            </div>
+            <div class="frame-strip" id="frameStrip"></div>
+          </div>
+
+          <!-- Scientific Caveat -->
+          <div class="caveat-box">
+            <strong>How to interpret results:</strong> Explicit generator tags (e.g., Stable Diffusion PNG chunks, C2PA, Sora/Runway metadata) are high-confidence indicators. When metadata is stripped, forensic heuristics analyze spectral roll-off, sensor noise floors, compression residuals, and video flicker—heavy social-media recompression or heavy Lightroom/Photoshop edits can raise uncertainty. For mission-critical verification, enable the optional Hugging Face deep-learning classifier in <em>AI Model Boost</em>.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Session History -->
+    <section class="history-section hidden" id="historySection">
+      <div class="history-header">
+        <h3>Recent Scans (This Session)</h3>
+        <button type="button" class="btn btn-ghost btn-sm" id="clearHistoryBtn">Clear</button>
+      </div>
+      <div class="history-grid" id="historyGrid"></div>
+    </section>
+
+    <!-- AI Score & Detection Guide -->
+    <section class="guide-section" id="scoringGuide">
+      <div class="card guide-card">
+        <div class="card-header guide-header">
+          <div>
+            <h3>How AGON Considers Media AI-Generated</h3>
+            <span class="card-hint">Percentage thresholds &amp; multi-signal forensic breakdown</span>
+          </div>
+          <span class="tag-chip active">Scoring Reference</span>
+        </div>
+
+        <!-- Visual Threshold Bar -->
+        <div class="threshold-scale" aria-label="AI Likelihood Percentage Scale">
+          <div class="scale-segment scale-authentic">
+            <span class="scale-range">4% &ndash; 41%</span>
+            <strong>Likely Authentic Media</strong>
+            <p>Noise floor, frequency decay, and/or camera EXIF resemble real camera capture. Below <strong>35%</strong> is strongly authentic.</p>
+          </div>
+          <div class="scale-segment scale-uncertain">
+            <span class="scale-range">42% &ndash; 67%</span>
+            <strong>Uncertain / Mixed Signals</strong>
+            <p>Inconclusive range—often caused by heavy JPEG compression, screenshots, filters, or stripped metadata. Do not treat as proof.</p>
+          </div>
+          <div class="scale-segment scale-ai">
+            <span class="scale-range">68% &ndash; 98%</span>
+            <strong>Likely AI-Generated</strong>
+            <p>Multiple synthetic anomalies align. <strong>75%+</strong> indicates strong AI evidence; <strong>92%+</strong> appears when explicit AI metadata tags are embedded.</p>
+          </div>
+        </div>
+
+        <!-- 4 Detection Pillars -->
+        <div class="guide-pillars">
+          <div class="pillar-item">
+            <span class="pillar-weight">Provenance</span>
+            <strong>EXIF, PNG &amp; C2PA Metadata</strong>
+            <p>Scans for explicit generator signatures (Stable Diffusion, ComfyUI, Midjourney, DALL-E, Firefly, Sora, Runway) or authentic camera capture tags.</p>
+          </div>
+          <div class="pillar-item">
+            <span class="pillar-weight">34% Visual Weight</span>
+            <strong>2D FFT Frequency Spectrum</strong>
+            <p>Detects periodic neural upsampling grid spikes and abnormal high-frequency roll-off compared to natural optical 1/<em>f</em> decay.</p>
+          </div>
+          <div class="pillar-item">
+            <span class="pillar-weight">52% Visual Weight</span>
+            <strong>Sensor Noise &amp; ELA Residuals</strong>
+            <p>Measures high-pass micro-texture smoothness (<code>32&times;32</code> patches), RGB channel correlation, and JPEG Q90 compression residuals.</p>
+          </div>
+          <div class="pillar-item">
+            <span class="pillar-weight">Videos &amp; Boost</span>
+            <strong>Temporal Flicker &amp; Neural ML</strong>
+            <p>Videos also measure frame-to-frame high-frequency shimmer. Enable <em>AI Model Boost</em> for optional Hugging Face / ONNX neural classification.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
